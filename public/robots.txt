@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://table.hirameki-tech.com/sitemap.xml
