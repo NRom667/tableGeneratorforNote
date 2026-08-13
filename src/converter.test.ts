@@ -67,7 +67,7 @@ describe('KaTeX output', () => {
 
   it('noteへ貼り付けられるディスプレイ数式を生成する', () => {
     const result = convertTable('項目\t内容\n名前\t太郎');
-    expect(result.code).toContain('$$\n\\begin{array}{|c|c|}');
+    expect(result.code).toContain('$$\n\\newcommand{\\arraystretch}{1.5} %\n\\begin{array}{|c|c|}');
     expect(result.expression).toContain(String.raw`\text{名前} & \text{太郎} \\ \hline`);
     expect(result.code).toContain(String.raw`\text{名前} & \text{太郎} \\\\ \hline`);
     expect(result.code.endsWith('\\end{array}\n$$')).toBe(true);

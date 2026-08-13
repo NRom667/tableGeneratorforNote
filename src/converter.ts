@@ -183,7 +183,7 @@ export function generateKatexExpression(rows: string[][]): string {
     .map((row) => `${row.map((cell) => `\\text{${escapeKatexText(cell)}}`).join(' & ')} \\\\ \\hline`)
     .join('\n');
 
-  return `\\begin{array}{${columns}}\n\\hline\n${body}\n\\end{array}`;
+  return `\\newcommand{\\arraystretch}{1.5} %\n\\begin{array}{${columns}}\n\\hline\n${body}\n\\end{array}`;
 }
 
 export function generateNoteCode(expression: string): string {
