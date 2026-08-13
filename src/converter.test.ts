@@ -84,6 +84,39 @@ describe('KaTeX output', () => {
     expect(code).not.toContain(String.raw`\\begin{array}`);
   });
 
+  it.each([
+    ['center', '|c|c|'],
+    ['left', '|l|l|'],
+    ['right', '|r|r|'],
+  ] as const)('%s揃えの列指定を生成する', (alignment, columns) => {
+    const result = convertTable('A\tB\n1\t2', { alignment });
+    expect(result.expression).toContain(`\\begin{array}{${columns}}`);
+  });
+
+  it('見出し行を中央揃えにし、直下へ二重線を生成する', () => {
+    const result = convertTable('見出し1\t見出し2\n左\t右', {
+      alignment: 'left',
+      firstRowAsHeader: true,
+    });
+
+    expect(result.expression).toContain('\\begin{array}{|c|c|}');
+    expect(result.expression).toContain(
+      String.raw`\text{見出し1} & \text{見出し2} \\ \hline\hline`,
+    );
+    expect(result.expression).toContain(
+      String.raw`\mathrlap{\text{左}}\phantom{\text{見出し1}} & \mathrlap{\text{右}}\phantom{\text{見出し2}} \\ \hline`,
+    );
+    expect(result.code).toContain(String.raw`\hline\hline`);
+    expect(() =>
+      katex.renderToString(result.expression, {
+        displayMode: true,
+        throwOnError: true,
+        strict: false,
+        trust: false,
+      }),
+    ).not.toThrow();
+  });
+
   it('特殊文字と日本語を含む生成結果をKaTeXで描画できる', () => {
     const result = convertTable('項目\t内容\n記号\tA&B_1 {50%} \\ $ # ^ ~\n日本語\tひらめき');
     expect(() =>

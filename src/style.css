@@ -198,6 +198,10 @@ main {
   margin-bottom: 25px;
 }
 
+.result-pane > .pane-heading {
+  margin-bottom: 14px;
+}
+
 .pane-heading > div:first-child {
   gap: 12px;
 }
@@ -234,6 +238,130 @@ main {
 .text-button:hover {
   color: var(--green-dark);
   background: var(--green-pale);
+}
+
+.style-controls {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.alignment-control {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.alignment-control legend {
+  margin-bottom: 8px;
+  padding: 0;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.alignment-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--line);
+}
+
+.alignment-tabs label {
+  position: relative;
+  cursor: pointer;
+}
+
+.alignment-tabs input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.alignment-tabs span {
+  min-width: 62px;
+  display: block;
+  padding: 8px 13px 9px;
+  border-bottom: 2px solid transparent;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.alignment-tabs label:hover span {
+  color: var(--green-dark);
+  background: var(--green-pale);
+}
+
+.alignment-tabs input:checked + span {
+  border-bottom-color: var(--green);
+  color: var(--green-dark);
+}
+
+.alignment-tabs input:focus-visible + span {
+  outline: 3px solid rgba(19, 124, 80, 0.24);
+  outline-offset: 2px;
+}
+
+.header-option {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--ink);
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.header-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.checkbox-mark {
+  width: 19px;
+  height: 19px;
+  display: grid;
+  flex: none;
+  place-items: center;
+  border: 1px solid #aeb8b1;
+  border-radius: 3px;
+  background: var(--surface);
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.checkbox-mark svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: white;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+  opacity: 0;
+  transform: scale(0.75);
+  transition: opacity 140ms ease, transform 140ms ease;
+}
+
+.header-option input:checked + .checkbox-mark {
+  border-color: var(--green);
+  background: var(--green);
+}
+
+.header-option input:checked + .checkbox-mark svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.header-option input:focus-visible + .checkbox-mark {
+  outline: 3px solid rgba(19, 124, 80, 0.24);
+  outline-offset: 2px;
 }
 
 .source-input {
@@ -706,6 +834,25 @@ footer small {
     width: 100%;
     border-left: 0;
     border-right: 0;
+  }
+
+  .style-controls {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .alignment-control,
+  .alignment-tabs {
+    width: 100%;
+  }
+
+  .alignment-tabs label {
+    flex: 1;
+  }
+
+  .alignment-tabs span {
+    min-width: 0;
   }
 
   .source-pane,

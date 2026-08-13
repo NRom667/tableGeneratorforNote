@@ -69,6 +69,23 @@ app.innerHTML = `
           </div>
           <span id="table-size" class="table-size"></span>
         </div>
+        <div class="style-controls" aria-label="表のスタイル">
+          <fieldset class="alignment-control">
+            <legend>文字揃え</legend>
+            <div class="alignment-tabs">
+              <label><input type="radio" name="alignment" value="center" checked /><span>中央</span></label>
+              <label><input type="radio" name="alignment" value="left" /><span>左</span></label>
+              <label><input type="radio" name="alignment" value="right" /><span>右</span></label>
+            </div>
+          </fieldset>
+          <label class="header-option">
+            <input id="header-option" type="checkbox" />
+            <span class="checkbox-mark" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="m3.5 8 3 3 6-6" /></svg>
+            </span>
+            <span>1行目は見出し</span>
+          </label>
+        </div>
 
         <section class="preview-section" aria-labelledby="preview-title">
           <div class="section-label-row">
@@ -101,7 +118,9 @@ app.innerHTML = `
 
     <aside class="ad-slot" aria-label="広告掲載枠">
       <span>PR</span>
-      <p>広告掲載スペース</p>
+      <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" rel="nofollow">
+<img border="0" width="728" height="90" alt="" src="https://www21.a8.net/svt/bgt?aid=260813278101&wid=003&eno=01&mid=s00000007238009008000&mc=1"></a>
+<img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" alt="">
     </aside>
 
     <section id="how-to" class="how-to" aria-labelledby="how-to-title">
@@ -136,7 +155,8 @@ app.innerHTML = `
       <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
       <span>note表メーカー</span>
     </a>
-    <p>入力内容を保存・送信することはありません。</p>
+    <p>入力内容を保存・送信することはありません。<br>
+    当サイトはアフィリエイト広告を利用しています。</p>
     <small>© 2026 hirameki-tech.com</small>
   </footer>
 `;
@@ -151,6 +171,8 @@ const copyButton = document.querySelector<HTMLButtonElement>('#copy-button')!;
 const copyStatus = document.querySelector<HTMLParagraphElement>('#copy-status')!;
 const sampleButton = document.querySelector<HTMLButtonElement>('#sample-button')!;
 const clearButton = document.querySelector<HTMLButtonElement>('#clear-button')!;
+const alignmentInputs = document.querySelectorAll<HTMLInputElement>('input[name="alignment"]');
+const headerOption = document.querySelector<HTMLInputElement>('#header-option')!;
 
 const emptyPreview = preview.innerHTML;
 let copyStatusTimer: number | undefined;
@@ -212,7 +234,11 @@ function updateConversion(): void {
   }
 
   try {
-    showResult(convertTable(value));
+    const alignment = document.querySelector<HTMLInputElement>('input[name="alignment"]:checked')!;
+    showResult(convertTable(value, {
+      alignment: alignment.value as 'center' | 'left' | 'right',
+      firstRowAsHeader: headerOption.checked,
+    }));
   } catch (error) {
     showError(error instanceof TableParseError ? error.message : '変換中にエラーが発生しました。');
   }
@@ -243,6 +269,8 @@ async function copyCode(): Promise<void> {
 
 sourceInput.addEventListener('input', updateConversion);
 copyButton.addEventListener('click', copyCode);
+alignmentInputs.forEach((input) => input.addEventListener('change', updateConversion));
+headerOption.addEventListener('change', updateConversion);
 
 sampleButton.addEventListener('click', () => {
   sourceInput.value = sampleMarkdown;

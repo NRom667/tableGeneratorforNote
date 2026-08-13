@@ -1,4 +1,10 @@
 export type InputFormat = 'markdown' | 'tsv';
+export type TableAlignment = 'center' | 'left' | 'right';
+
+export interface TableStyleOptions {
+  alignment?: TableAlignment;
+  firstRowAsHeader?: boolean;
+}
 
 export interface ConversionResult {
   format: InputFormat;
@@ -174,13 +180,56 @@ export function escapeKatexText(value: string): string {
   return value.replace(/[\\{}$%#&_^~]/g, (character) => replacements[character]);
 }
 
-export function generateKatexExpression(rows: string[][]): string {
+const alignmentColumns: Record<TableAlignment, string> = {
+  center: 'c',
+  left: 'l',
+  right: 'r',
+};
+
+function generateAlignedCell(
+  cell: string,
+  widestCell: string,
+  alignment: Exclude<TableAlignment, 'center'>,
+): string {
+  const content = `\\text{${escapeKatexText(cell)}}`;
+  const fullWidth = `\\phantom{\\text{${escapeKatexText(widestCell)}}}`;
+
+  return alignment === 'left'
+    ? `\\mathrlap{${content}}${fullWidth}`
+    : `${fullWidth}\\mathllap{${content}}`;
+}
+
+export function generateKatexExpression(
+  rows: string[][],
+  options: TableStyleOptions = {},
+): string {
   const columnCount = rows[0]?.length ?? 0;
   if (columnCount === 0) return '';
 
-  const columns = `|${Array.from({ length: columnCount }, () => 'c').join('|')}|`;
+  const alignment = options.alignment ?? 'center';
+  const needsCenteredHeaderOverride = options.firstRowAsHeader && alignment !== 'center';
+  const columnAlignment = needsCenteredHeaderOverride ? 'c' : alignmentColumns[alignment];
+  const columns = `|${Array.from({ length: columnCount }, () => columnAlignment).join('|')}|`;
+  const widestCells = Array.from({ length: columnCount }, (_, columnIndex) =>
+    rows.reduce((widest, row) => {
+      const candidate = row[columnIndex] ?? '';
+      return candidate.length > widest.length ? candidate : widest;
+    }, ''),
+  );
   const body = rows
-    .map((row) => `${row.map((cell) => `\\text{${escapeKatexText(cell)}}`).join(' & ')} \\\\ \\hline`)
+    .map((row, index) => {
+      const isHeader = options.firstRowAsHeader && index === 0;
+      const cells = row.map((cell, columnIndex) => {
+        if (!isHeader && needsCenteredHeaderOverride) {
+          return generateAlignedCell(cell, widestCells[columnIndex], alignment);
+        }
+
+        return `\\text{${escapeKatexText(cell)}}`;
+      }).join(' & ');
+      const horizontalRule = isHeader ? '\\hline\\hline' : '\\hline';
+
+      return `${cells} \\\\ ${horizontalRule}`;
+    })
     .join('\n');
 
   return `\\newcommand{\\arraystretch}{1.5} %\n\\begin{array}{${columns}}\n\\hline\n${body}\n\\end{array}`;
@@ -194,9 +243,13 @@ export function generateNoteCode(expression: string): string {
   return `$$\n${pasteSafeExpression}\n$$`;
 }
 
-export function convertTable(input: string, format = detectFormat(input)): ConversionResult {
+export function convertTable(
+  input: string,
+  options: TableStyleOptions = {},
+  format = detectFormat(input),
+): ConversionResult {
   const parsed = format === 'tsv' ? parseTsv(input) : parseMarkdownTable(input);
-  const expression = generateKatexExpression(parsed.rows);
+  const expression = generateKatexExpression(parsed.rows, options);
 
   return {
     format,
