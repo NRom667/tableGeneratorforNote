@@ -650,6 +650,11 @@ main {
   margin: 0;
 }
 
+.ad-slot a img {
+  max-width: 100%;
+  height: auto;
+}
+
 .how-to {
   width: min(1200px, calc(100% - var(--page-gutter) * 2));
   margin: clamp(96px, 13vw, 176px) auto 0;

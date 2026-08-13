@@ -118,7 +118,7 @@ app.innerHTML = `
 
     <aside class="ad-slot" aria-label="広告掲載枠">
       <span>PR</span>
-      <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" rel="nofollow">
+      <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" rel="sponsored nofollow">
 <img border="0" width="728" height="90" alt="" src="https://www21.a8.net/svt/bgt?aid=260813278101&wid=003&eno=01&mid=s00000007238009008000&mc=1"></a>
 <img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" alt="">
     </aside>
