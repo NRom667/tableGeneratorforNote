@@ -635,13 +635,13 @@ main {
 }
 
 .ad-slot {
+  position: relative;
   width: min(940px, calc(100% - var(--page-gutter) * 2));
   min-height: 96px;
   margin: 42px auto 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
   border: 1px dashed #cbd2cd;
   color: #9ba39e;
   background: rgba(255, 255, 255, 0.42);
@@ -649,17 +649,26 @@ main {
 }
 
 .ad-slot span {
-  padding: 2px 4px;
-  border: 1px solid #cbd2cd;
-  font-size: 8px;
+  position: absolute;
+  bottom: calc(100% + 7px);
+  left: 0;
+  font-size: 12px;
+  line-height: 1;
 }
 
 .ad-slot p {
   margin: 0;
 }
 
+.ad-slot a {
+  display: block;
+  width: min(728px, 100%);
+  line-height: 0;
+}
+
 .ad-slot a img {
-  max-width: 100%;
+  display: block;
+  width: 100%;
   height: auto;
 }
 
@@ -897,7 +906,7 @@ footer small {
   }
 
   .ad-slot {
-    width: calc(100% - 32px);
+    width: calc(100% - 16px);
   }
 
   .how-to,
