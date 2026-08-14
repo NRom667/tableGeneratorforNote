@@ -78,13 +78,22 @@ app.innerHTML = `
               <label><input type="radio" name="alignment" value="right" /><span>右</span></label>
             </div>
           </fieldset>
-          <label class="header-option">
-            <input id="header-option" type="checkbox" />
-            <span class="checkbox-mark" aria-hidden="true">
-              <svg viewBox="0 0 16 16"><path d="m3.5 8 3 3 6-6" /></svg>
-            </span>
-            <span>1行目は見出し</span>
-          </label>
+          <div class="option-controls">
+            <label class="header-option">
+              <input id="header-option" type="checkbox" />
+              <span class="checkbox-mark" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="m3.5 8 3 3 6-6" /></svg>
+              </span>
+              <span>1行目は見出し</span>
+            </label>
+            <label class="header-option">
+              <input id="note-app-option" type="checkbox" />
+              <span class="checkbox-mark" aria-hidden="true">
+                <svg viewBox="0 0 16 16"><path d="m3.5 8 3 3 6-6" /></svg>
+              </span>
+              <span>noteアプリ用</span>
+            </label>
+          </div>
         </div>
 
         <section class="preview-section" aria-labelledby="preview-title">
@@ -173,6 +182,7 @@ const sampleButton = document.querySelector<HTMLButtonElement>('#sample-button')
 const clearButton = document.querySelector<HTMLButtonElement>('#clear-button')!;
 const alignmentInputs = document.querySelectorAll<HTMLInputElement>('input[name="alignment"]');
 const headerOption = document.querySelector<HTMLInputElement>('#header-option')!;
+const noteAppOption = document.querySelector<HTMLInputElement>('#note-app-option')!;
 
 const emptyPreview = preview.innerHTML;
 let copyStatusTimer: number | undefined;
@@ -238,6 +248,7 @@ function updateConversion(): void {
     showResult(convertTable(value, {
       alignment: alignment.value as 'center' | 'left' | 'right',
       firstRowAsHeader: headerOption.checked,
+      noteAppMode: noteAppOption.checked,
     }));
   } catch (error) {
     showError(error instanceof TableParseError ? error.message : '変換中にエラーが発生しました。');
@@ -271,6 +282,7 @@ sourceInput.addEventListener('input', updateConversion);
 copyButton.addEventListener('click', copyCode);
 alignmentInputs.forEach((input) => input.addEventListener('change', updateConversion));
 headerOption.addEventListener('change', updateConversion);
+noteAppOption.addEventListener('change', updateConversion);
 
 sampleButton.addEventListener('click', () => {
   sourceInput.value = sampleMarkdown;

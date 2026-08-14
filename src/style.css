@@ -306,6 +306,14 @@ main {
   outline-offset: 2px;
 }
 
+.option-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
 .header-option {
   min-height: 38px;
   display: inline-flex;
@@ -845,6 +853,10 @@ footer small {
     align-items: flex-start;
     flex-direction: column;
     gap: 10px;
+  }
+
+  .option-controls {
+    justify-content: flex-start;
   }
 
   .alignment-control,

@@ -4,6 +4,7 @@ export type TableAlignment = 'center' | 'left' | 'right';
 export interface TableStyleOptions {
   alignment?: TableAlignment;
   firstRowAsHeader?: boolean;
+  noteAppMode?: boolean;
 }
 
 export interface ConversionResult {
@@ -235,7 +236,9 @@ export function generateKatexExpression(
   return `\\newcommand{\\arraystretch}{1.5} %\n\\begin{array}{${columns}}\n\\hline\n${body}\n\\end{array}`;
 }
 
-export function generateNoteCode(expression: string): string {
+export function generateNoteCode(expression: string, noteAppMode = false): string {
+  if (noteAppMode) return `$$\n${expression}\n$$`;
+
   const katexRowBreak = String.raw`\\ \hline`;
   const notePasteSafeRowBreak = String.raw`\\\\ \hline`;
   const pasteSafeExpression = expression.replaceAll(katexRowBreak, notePasteSafeRowBreak);
@@ -255,7 +258,7 @@ export function convertTable(
     format,
     rows: parsed.rows,
     expression,
-    code: generateNoteCode(expression),
+    code: generateNoteCode(expression, options.noteAppMode),
     warnings: parsed.warnings,
   };
 }

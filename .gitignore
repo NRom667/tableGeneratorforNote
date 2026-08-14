@@ -5,3 +5,4 @@ dist/
 coverage/
 *.local
 .dev.vars
+doc/

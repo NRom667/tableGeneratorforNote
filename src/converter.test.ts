@@ -84,6 +84,24 @@ describe('KaTeX output', () => {
     expect(code).not.toContain(String.raw`\\begin{array}`);
   });
 
+  it('noteアプリ用では通常のKaTeXの行区切りを維持する', () => {
+    const expression = String.raw`\begin{array}{|c|}\hline
+\text{A} \\ \hline
+\end{array}`;
+    const code = generateNoteCode(expression, true);
+
+    expect(code).toBe(`$$\n${expression}\n$$`);
+    expect(code).toContain(String.raw`\text{A} \\ \hline`);
+    expect(code).not.toContain(String.raw`\text{A} \\\\ \hline`);
+  });
+
+  it('noteアプリ用オプションを変換結果へ反映する', () => {
+    const result = convertTable('項目\t内容\n名前\t太郎', { noteAppMode: true });
+
+    expect(result.code).toContain(String.raw`\text{名前} & \text{太郎} \\ \hline`);
+    expect(result.code).not.toContain(String.raw`\text{名前} & \text{太郎} \\\\ \hline`);
+  });
+
   it.each([
     ['center', '|c|c|'],
     ['left', '|l|l|'],
