@@ -662,8 +662,16 @@ main {
 
 .ad-slot a {
   display: block;
-  width: min(728px, 100%);
+  max-width: 100%;
   line-height: 0;
+}
+
+.ad-slot--desktop a {
+  width: min(728px, 100%);
+}
+
+.ad-slot--mobile a {
+  width: min(300px, 100%);
 }
 
 .ad-slot a img {

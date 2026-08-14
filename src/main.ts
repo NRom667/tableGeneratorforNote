@@ -9,6 +9,23 @@ const sampleMarkdown = `| 項目 | 内容 | メモ |
 | 対応形式 | Markdown / Excel | ブラウザ内で変換 |
 | 使い方 | 貼ってコピー | たったの2ステップ |`;
 
+const desktopAdMarkup = `
+  <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" rel="sponsored nofollow">
+    <img border="0" width="728" height="90" alt="" src="https://www21.a8.net/svt/bgt?aid=260813278101&wid=003&eno=01&mid=s00000007238009008000&mc=1">
+  </a>
+  <img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" alt="">
+`;
+
+const mobileAdMarkup = `
+  <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4TNE+1JUK+1HM30X" rel="sponsored nofollow">
+    <img border="0" width="300" height="250" alt="" src="https://www29.a8.net/svt/bgt?aid=260813278101&wid=002&eno=01&mid=s00000007238009005000&mc=1">
+  </a>
+  <img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4BA4TA+1O4TNE+1JUK+1HM30X" alt="">
+`;
+
+const useMobileAd = window.matchMedia('(max-width: 640px)').matches;
+const adMarkup = useMobileAd ? mobileAdMarkup : desktopAdMarkup;
+
 const app = document.querySelector<HTMLDivElement>('#app');
 
 if (!app) throw new Error('App root not found');
@@ -125,11 +142,9 @@ app.innerHTML = `
       </div>
     </section>
 
-    <aside class="ad-slot" aria-label="広告掲載枠">
+    <aside class="ad-slot ad-slot--${useMobileAd ? 'mobile' : 'desktop'}" aria-label="広告掲載枠">
       <span>[ PR ]</span>
-      <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" rel="sponsored nofollow">
-<img border="0" width="728" height="90" alt="" src="https://www21.a8.net/svt/bgt?aid=260813278101&wid=003&eno=01&mid=s00000007238009008000&mc=1"></a>
-<img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" alt="">
+      ${adMarkup}
     </aside>
 
     <section id="how-to" class="how-to" aria-labelledby="how-to-title">
