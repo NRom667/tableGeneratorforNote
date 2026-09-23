@@ -10,17 +10,15 @@ const sampleMarkdown = `| 項目 | 内容 | メモ |
 | 使い方 | 貼ってコピー | たったの2ステップ |`;
 
 const desktopAdMarkup = `
-  <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" rel="sponsored nofollow">
-    <img border="0" width="728" height="90" alt="" src="https://www21.a8.net/svt/bgt?aid=260813278101&wid=003&eno=01&mid=s00000007238009008000&mc=1">
-  </a>
-  <img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4BA4TA+1O4UF6+1JUK+1HMQ69" alt="">
+<a href="https://px.a8.net/svt/ejp?a8mat=4BCHZR+66O6KI+50H8+614CX" rel="nofollow">
+<img border="0" width="200" height="200" alt="" src="https://www23.a8.net/svt/bgt?aid=260923671374&wid=003&eno=01&mid=s00000023390001013000&mc=1"></a>
+<img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4BCHZR+66O6KI+50H8+614CX" alt="">
 `;
 
 const mobileAdMarkup = `
-  <a href="https://px.a8.net/svt/ejp?a8mat=4BA4TA+1O4TNE+1JUK+1HM30X" rel="sponsored nofollow">
-    <img border="0" width="300" height="250" alt="" src="https://www29.a8.net/svt/bgt?aid=260813278101&wid=002&eno=01&mid=s00000007238009005000&mc=1">
-  </a>
-  <img border="0" width="1" height="1" src="https://www16.a8.net/0.gif?a8mat=4BA4TA+1O4TNE+1JUK+1HM30X" alt="">
+<a href="https://px.a8.net/svt/ejp?a8mat=4BCHZR+66O6KI+50H8+614CX" rel="nofollow">
+<img border="0" width="200" height="200" alt="" src="https://www23.a8.net/svt/bgt?aid=260923671374&wid=003&eno=01&mid=s00000023390001013000&mc=1"></a>
+<img border="0" width="1" height="1" src="https://www10.a8.net/0.gif?a8mat=4BCHZR+66O6KI+50H8+614CX" alt="">
 `;
 
 const useMobileAd = window.matchMedia('(max-width: 640px)').matches;
